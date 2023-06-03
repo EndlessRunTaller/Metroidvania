@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Velocidades")]
     public float speed;
-    public float maxSpeed;
+    public float maxVelocity;
     public float jumpForce;
     Vector2 dir;
     [Header("Rigibody")]
@@ -22,14 +22,14 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         ISGROUNDED();
-        GIRAR();
+    }
 
-        rb.AddForce(new Vector2(dir.x, 0) * speed * Time.deltaTime);
-        if (rb.velocity.magnitude > maxSpeed)
-        {
-            rb.velocity = rb.velocity.normalized * maxSpeed;
-        }
+    private void FixedUpdate()
+    {
+        rb.AddForce(new Vector2(dir.x, 0) * speed); //Movieminto tipo gta
+        //rb.velocity = new Vector2(dir.x * speed, 0); //MovimientoNormal
 
+        LIMITARVELOCIDAD();
     }
 
     public void MOVEDIR(Vector2 direction)
@@ -59,13 +59,11 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = false;
         }
-
-        Debug.Log(isGrounded);
     }
 
     public void GIRAR()
     {
-        if(rb.velocity.x > 0)
+        if (rb.velocity.x > -0.1)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
@@ -73,5 +71,19 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
+    }
+
+    public void LIMITARVELOCIDAD()
+    {
+        float velocidadActual = rb.velocity.x; // Obtiene la velocidad actual en el eje X
+
+        // Utiliza Mathf.Clamp para limitar la velocidad en el rango permitido
+        float velocidadLimitada = Mathf.Clamp(velocidadActual, -maxVelocity, maxVelocity);
+
+        // Crea un nuevo vector de velocidad limitado en el eje X
+        Vector3 nuevaVelocidad = new Vector3(velocidadLimitada, rb.velocity.y, rb.velocity.z);
+
+        // Asigna la nueva velocidad limitada al Rigidbody
+        rb.velocity = nuevaVelocidad;
     }
 }
