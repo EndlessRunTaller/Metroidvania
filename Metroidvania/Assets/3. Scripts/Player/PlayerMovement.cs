@@ -6,7 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Velocidades")]
     public float speed;
-    public float maxVelocity;
+    private bool derecha;
+
     public float jumpForce;
     Vector2 dir;
     [Header("Rigibody")]
@@ -15,20 +16,42 @@ public class PlayerMovement : MonoBehaviour
     [Header("isGrounded")]
     public bool isGrounded;
     public LayerMask whatIsGround;
-    public float rayDistance;
-    public Transform objRaycast;
+    public float rayDistanceGround;
+    public Transform objGround;
 
+    [Header("Dash")]
+    [SerializeField] private float velocidadDash;
+    [SerializeField] private float tiempoDash;
+
+    private bool puedeDash = true;
+    private bool puedeMover = true;
+
+    [Header("GIRAR")]
+    float rotacionJugador;
+    float yR = 10;
+
+    private void Start()
+    {
+        rotacionJugador = transform.rotation.y;
+    }
 
     private void Update()
     {
         ISGROUNDED();
+        GIRAR();
+        if (Input.GetKeyDown(KeyCode.F) && puedeDash)
+        {
+            StartCoroutine(DASH());
+        }
+
     }
 
     private void FixedUpdate()
     {
-        rb.AddForce(new Vector2(dir.x, 0) * speed); //Movieminto tipo gta
-        //rb.velocity = new Vector2(dir.x * speed, 0); //MovimientoNormal
-
+        if (puedeMover)
+        {
+            rb.AddForce(new Vector2(dir.x, 0) * speed); //Movieminto tipo gta
+        }
         LIMITARVELOCIDAD();
     }
 
@@ -47,11 +70,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void ISGROUNDED()
     {
-        Debug.DrawRay(objRaycast.position, objRaycast.forward * rayDistance, Color.red);
+        Debug.DrawRay(objGround.position, objGround.forward * rayDistanceGround, Color.red);
 
         RaycastHit hit;
 
-        if (Physics.Raycast(objRaycast.position, objRaycast.forward, out hit, rayDistance, whatIsGround))
+        if (Physics.Raycast(objGround.position, objGround.forward, out hit, rayDistanceGround, whatIsGround))
         {
             isGrounded = true;
         }
@@ -63,27 +86,91 @@ public class PlayerMovement : MonoBehaviour
 
     public void GIRAR()
     {
-        if (rb.velocity.x > -0.1)
+        if(rb.velocity.x > -0.1f)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            derecha = true;
         }
         else
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            derecha = false;
         }
+
+        if (derecha)
+        {
+            rotacionJugador += yR;
+
+            rotacionJugador = Mathf.Clamp(0, 0, 0);
+
+            transform.rotation = Quaternion.Euler(0, rotacionJugador, 0);
+        }
+        else
+        {
+            rotacionJugador -= yR;
+
+            rotacionJugador = Mathf.Clamp(0, 180, 0);
+
+            transform.rotation = Quaternion.Euler(0, rotacionJugador, 0);
+        }
+
+        Debug.Log(derecha);
+        
     }
 
     public void LIMITARVELOCIDAD()
     {
-        float velocidadActual = rb.velocity.x; // Obtiene la velocidad actual en el eje X
+        if (puedeMover)
+        {
+            float maxVelocity = 5;
 
-        // Utiliza Mathf.Clamp para limitar la velocidad en el rango permitido
-        float velocidadLimitada = Mathf.Clamp(velocidadActual, -maxVelocity, maxVelocity);
+            float velocidadActual = rb.velocity.x; // Obtiene la velocidad actual en el eje X
 
-        // Crea un nuevo vector de velocidad limitado en el eje X
-        Vector3 nuevaVelocidad = new Vector3(velocidadLimitada, rb.velocity.y, rb.velocity.z);
+            // Utiliza Mathf.Clamp para limitar la velocidad en el rango permitido
+            float velocidadLimitada = Mathf.Clamp(velocidadActual, -maxVelocity, maxVelocity);
 
-        // Asigna la nueva velocidad limitada al Rigidbody
-        rb.velocity = nuevaVelocidad;
+            // Crea un nuevo vector de velocidad limitado en el eje X
+            Vector3 nuevaVelocidad = new Vector3(velocidadLimitada, rb.velocity.y, rb.velocity.z);
+
+            // Asigna la nueva velocidad limitada al Rigidbody
+            rb.velocity = nuevaVelocidad;
+        }
+        else
+        {
+            float maxVelocity = 30;
+
+            float velocidadActual = rb.velocity.x; // Obtiene la velocidad actual en el eje X
+
+            // Utiliza Mathf.Clamp para limitar la velocidad en el rango permitido
+            float velocidadLimitada = Mathf.Clamp(velocidadActual, -maxVelocity, maxVelocity);
+
+            // Crea un nuevo vector de velocidad limitado en el eje X
+            Vector3 nuevaVelocidad = new Vector3(velocidadLimitada, rb.velocity.y, rb.velocity.z);
+
+            // Asigna la nueva velocidad limitada al Rigidbody
+            rb.velocity = nuevaVelocidad;
+        }
+
     }
+
+    private IEnumerator DASH()
+    {
+        puedeMover = false;
+        puedeDash = false;
+        rb.constraints = RigidbodyConstraints.FreezePositionY;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+        if (derecha)
+        {
+            rb.velocity = new Vector3(velocidadDash, 0, 0);
+        }
+        else
+        {
+            rb.velocity = new Vector3(-velocidadDash, 0, 0);
+        }
+
+        yield return new WaitForSeconds(tiempoDash);
+        puedeMover = true;
+        puedeDash = true;
+        rb.constraints = RigidbodyConstraints.None;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+    } 
 }
