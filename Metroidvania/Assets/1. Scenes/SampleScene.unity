@@ -172,8 +172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 400
-  jumpForce: 500
-  rb: {fileID: 96258958}
   isGrounded: 0
   whatIsGround:
     serializedVersion: 2
@@ -182,6 +180,11 @@ MonoBehaviour:
   objGround: {fileID: 869775472}
   velocidadDash: 500
   tiempoDash: 0.2
+  puedeDash: 1
+  puedeMover: 1
+  GravityScale: 5
+  jumpForce: 20
+  jumpStartTime: 0
 --- !u!54 &96258958
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -227,6 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba78c7d267434ae4881172fba9145827, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 96258957}
 --- !u!4 &109558393
 Transform:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     Controls controls;
+    public PlayerMovement playerMovement;
 
     private void Awake()
     {
@@ -16,19 +17,41 @@ public class InputManager : MonoBehaviour
     private void OnEnable()
     {
         controls.Movimiento.Enable();
+        //Movimiento
         controls.Movimiento.Move.performed += MovePlayer;
         controls.Movimiento.Move.canceled += MovePlayer;
-        controls.Movimiento.Jump.started += JumpPlayer;
+        //Salto
+        controls.Movimiento.Jump.performed += JumpPlayer;
+        controls.Movimiento.Jump.canceled += JumpPlayer;
+        //Dash
+        controls.Movimiento.Dash.performed += DashPlayer;
+
     }
 
-    private void JumpPlayer(InputAction.CallbackContext obj)
+    private void DashPlayer(InputAction.CallbackContext obj)
     {
-        FindObjectOfType<PlayerMovement>().JUMPPLAYER();
+        if (playerMovement.puedeDash)
+        {
+            FindObjectOfType<PlayerMovement>().StartCoroutine(playerMovement.DASH());
+        }     
+    }
+
+    private void JumpPlayer(InputAction.CallbackContext context)
+    {
+        if (context.performed && playerMovement.isGrounded == true)
+        {
+            FindObjectOfType<PlayerMovement>().PERFORMJUMP();
+        }
+        if (context.canceled)
+        {
+            FindObjectOfType<PlayerMovement>().CANCELJUMP();
+        }
     }
 
     private void MovePlayer(InputAction.CallbackContext obj)
     {
         Vector2 moveDir = obj.ReadValue<Vector2>();
         FindObjectOfType<PlayerMovement>().MOVEDIR(moveDir);
+        FindObjectOfType<PlayerMovement>().GIRAR(moveDir);
     }
 }

@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Codigos")]
+    private Rigidbody rb;
+    
+
     [Header("Velocidades")]
     public float speed;
     private bool derecha;
+    private Vector2 dir;
 
-    public float jumpForce;
-    Vector2 dir;
-    [Header("Rigibody")]
-    public Rigidbody rb;
 
     [Header("isGrounded")]
     public bool isGrounded;
@@ -23,27 +24,31 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float velocidadDash;
     [SerializeField] private float tiempoDash;
 
-    private bool puedeDash = true;
-    private bool puedeMover = true;
+    public bool puedeDash = true;
+    public bool puedeMover = true;
 
     [Header("GIRAR")]
-    float rotacionJugador;
-    float yR = 10;
+    private float rotacionJugador;
+    private float yR = 10;
+
+    [Header("Jump")]
+    public float GravityScale;
+    public float jumpForce;
+
+    public float jumpStartTime;
+    private float jumpTime;
+    private bool isJumping;
+
 
     private void Start()
     {
         rotacionJugador = transform.rotation.y;
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
         ISGROUNDED();
-        GIRAR();
-        if (Input.GetKeyDown(KeyCode.F) && puedeDash)
-        {
-            StartCoroutine(DASH());
-        }
-
     }
 
     private void FixedUpdate()
@@ -53,6 +58,13 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(dir.x, 0) * speed); //Movieminto tipo gta
         }
         LIMITARVELOCIDAD();
+
+        if (puedeDash)
+        {
+            GRAVITY(GravityScale);
+        }
+
+        ENSALTO();
     }
 
     public void MOVEDIR(Vector2 direction)
@@ -60,13 +72,26 @@ public class PlayerMovement : MonoBehaviour
         dir = direction;
     }
 
-    public void JUMPPLAYER()
+    //Fases del salto
+    public void PERFORMJUMP()
     {
-        if (isGrounded)
+        isJumping = true;
+    }
+
+    public void CANCELJUMP()
+    {
+        isJumping = false;
+    }
+
+    public void ENSALTO()
+    {
+        if (isJumping && isGrounded)
         {
-            rb.AddForce(new Vector2(0, jumpForce));
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
     }
+
+
 
     public void ISGROUNDED()
     {
@@ -84,13 +109,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void GIRAR()
+    public void GIRAR(Vector2 direcction)
     {
-        if(rb.velocity.x > -0.1f)
+        if(direcction.x > 0.5)
         {
             derecha = true;
         }
-        else
+        else if(direcction.x < -0.5)
         {
             derecha = false;
         }
@@ -110,10 +135,7 @@ public class PlayerMovement : MonoBehaviour
             rotacionJugador = Mathf.Clamp(0, 180, 0);
 
             transform.rotation = Quaternion.Euler(0, rotacionJugador, 0);
-        }
-
-        Debug.Log(derecha);
-        
+        }       
     }
 
     public void LIMITARVELOCIDAD()
@@ -151,7 +173,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private IEnumerator DASH()
+    public IEnumerator DASH()
     {
         puedeMover = false;
         puedeDash = false;
@@ -173,4 +195,9 @@ public class PlayerMovement : MonoBehaviour
         rb.constraints = RigidbodyConstraints.None;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
     } 
+
+    public void GRAVITY(float GravityScale)
+    {
+        rb.AddForce(Physics.gravity * (GravityScale - 1) * rb.mass);
+    }
 }

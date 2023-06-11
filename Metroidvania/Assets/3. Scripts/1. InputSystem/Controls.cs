@@ -33,13 +33,22 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""id"": ""f3a8ebb6-7b41-4e32-aa8f-21306b45c486"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""3a30443e-86f1-4158-8bcb-964416b2e547"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""e8d79eea-7591-4876-9c4f-cbd6e3867895"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -189,6 +198,39 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1042b662-ab6e-4ceb-9543-21656913d236"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": ""MultiTap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a93dfa8a-4eef-493c-96e1-078bbe6d0a0e"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": ""MultiTap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6ae9c74-6ef6-44d0-a5e9-5836d3174fd8"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -199,6 +241,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Movimiento = asset.FindActionMap("Movimiento", throwIfNotFound: true);
         m_Movimiento_Move = m_Movimiento.FindAction("Move", throwIfNotFound: true);
         m_Movimiento_Jump = m_Movimiento.FindAction("Jump", throwIfNotFound: true);
+        m_Movimiento_Dash = m_Movimiento.FindAction("Dash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -260,12 +303,14 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private IMovimientoActions m_MovimientoActionsCallbackInterface;
     private readonly InputAction m_Movimiento_Move;
     private readonly InputAction m_Movimiento_Jump;
+    private readonly InputAction m_Movimiento_Dash;
     public struct MovimientoActions
     {
         private @Controls m_Wrapper;
         public MovimientoActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Movimiento_Move;
         public InputAction @Jump => m_Wrapper.m_Movimiento_Jump;
+        public InputAction @Dash => m_Wrapper.m_Movimiento_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Movimiento; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -281,6 +326,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_MovimientoActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_MovimientoActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_MovimientoActionsCallbackInterface.OnJump;
+                @Dash.started -= m_Wrapper.m_MovimientoActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_MovimientoActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_MovimientoActionsCallbackInterface.OnDash;
             }
             m_Wrapper.m_MovimientoActionsCallbackInterface = instance;
             if (instance != null)
@@ -291,6 +339,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
             }
         }
     }
@@ -299,5 +350,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
 }
