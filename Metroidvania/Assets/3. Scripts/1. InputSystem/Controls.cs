@@ -53,6 +53,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Value"",
+                    ""id"": ""0929fe38-6437-4613-9af4-6a0a2b28be0e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -231,6 +240,72 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5a1e92c6-ad32-48d2-8f0a-0db82b35218d"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Fechas"",
+                    ""id"": ""78aa79a9-9b00-42e3-aee7-fbcaad539fce"",
+                    ""path"": ""2DVector(mode=2)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""1e628a83-7b25-4af3-91ad-dd61afa615d6"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""5f758d38-7488-4d8b-9745-731b79bb75f6"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""b6d1892e-5926-494a-9bd6-817ada77947d"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""8e8df885-954b-41b8-85f4-fbe7ee524832"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -242,6 +317,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Movimiento_Move = m_Movimiento.FindAction("Move", throwIfNotFound: true);
         m_Movimiento_Jump = m_Movimiento.FindAction("Jump", throwIfNotFound: true);
         m_Movimiento_Dash = m_Movimiento.FindAction("Dash", throwIfNotFound: true);
+        m_Movimiento_Shoot = m_Movimiento.FindAction("Shoot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -304,6 +380,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Movimiento_Move;
     private readonly InputAction m_Movimiento_Jump;
     private readonly InputAction m_Movimiento_Dash;
+    private readonly InputAction m_Movimiento_Shoot;
     public struct MovimientoActions
     {
         private @Controls m_Wrapper;
@@ -311,6 +388,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Movimiento_Move;
         public InputAction @Jump => m_Wrapper.m_Movimiento_Jump;
         public InputAction @Dash => m_Wrapper.m_Movimiento_Dash;
+        public InputAction @Shoot => m_Wrapper.m_Movimiento_Shoot;
         public InputActionMap Get() { return m_Wrapper.m_Movimiento; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -329,6 +407,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Dash.started -= m_Wrapper.m_MovimientoActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_MovimientoActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_MovimientoActionsCallbackInterface.OnDash;
+                @Shoot.started -= m_Wrapper.m_MovimientoActionsCallbackInterface.OnShoot;
+                @Shoot.performed -= m_Wrapper.m_MovimientoActionsCallbackInterface.OnShoot;
+                @Shoot.canceled -= m_Wrapper.m_MovimientoActionsCallbackInterface.OnShoot;
             }
             m_Wrapper.m_MovimientoActionsCallbackInterface = instance;
             if (instance != null)
@@ -342,6 +423,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
+                @Shoot.started += instance.OnShoot;
+                @Shoot.performed += instance.OnShoot;
+                @Shoot.canceled += instance.OnShoot;
             }
         }
     }
@@ -351,5 +435,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
     }
 }

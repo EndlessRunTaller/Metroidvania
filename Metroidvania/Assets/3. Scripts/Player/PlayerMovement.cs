@@ -39,6 +39,10 @@ public class PlayerMovement : MonoBehaviour
     private float jumpTime;
     private bool isJumping;
 
+    [Header("Shoot")]
+    public Vector2 shootPoint;
+
+
 
     private void Start()
     {
@@ -64,7 +68,8 @@ public class PlayerMovement : MonoBehaviour
             GRAVITY(GravityScale);
         }
 
-        ENSALTO();
+        StartJump();
+        StopJump();
     }
 
     public void MOVEDIR(Vector2 direction)
@@ -83,11 +88,20 @@ public class PlayerMovement : MonoBehaviour
         isJumping = false;
     }
 
-    public void ENSALTO()
+    public void StartJump()
     {
         if (isJumping && isGrounded)
         {
+            GRAVITY(0);
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
+    }
+
+    public void StopJump()
+    {
+        if (!isJumping && !isGrounded)
+        {
+            GRAVITY(GravityScale);
         }
     }
 

@@ -25,8 +25,13 @@ public class InputManager : MonoBehaviour
         controls.Movimiento.Jump.canceled += JumpPlayer;
         //Dash
         controls.Movimiento.Dash.performed += DashPlayer;
+        //Shoot
+        controls.Movimiento.Shoot.performed += ShootPlayer;
+
 
     }
+
+
 
     private void DashPlayer(InputAction.CallbackContext obj)
     {
@@ -38,7 +43,7 @@ public class InputManager : MonoBehaviour
 
     private void JumpPlayer(InputAction.CallbackContext context)
     {
-        if (context.performed && playerMovement.isGrounded == true)
+        if (context.performed)
         {
             FindObjectOfType<PlayerMovement>().PERFORMJUMP();
         }
@@ -54,4 +59,14 @@ public class InputManager : MonoBehaviour
         FindObjectOfType<PlayerMovement>().MOVEDIR(moveDir);
         FindObjectOfType<PlayerMovement>().GIRAR(moveDir);
     }
+
+    private void ShootPlayer(InputAction.CallbackContext obj)
+    {
+        Vector2 shootDir = obj.ReadValue<Vector2>();
+        if (shootDir.x == 1)
+        {
+            FindObjectOfType<ShootSystem>().Shoot();
+        }
+    }
+
 }
