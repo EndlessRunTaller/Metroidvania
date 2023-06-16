@@ -63,10 +63,12 @@ public class InputManager : MonoBehaviour
     private void ShootPlayer(InputAction.CallbackContext obj)
     {
         Vector2 shootDir = obj.ReadValue<Vector2>();
-        if (shootDir.x == 1)
+        if (shootDir.x >= -1 & shootDir.x <= 1)
         {
-            FindObjectOfType<ShootSystem>().Shoot();
+            //FindObjectOfType<ShootSystem>().SHOOT();
         }
+
+        FindObjectOfType<ShootSystem>().ROTATION(shootDir);
     }
 
 }

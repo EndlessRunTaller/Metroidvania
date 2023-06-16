@@ -39,9 +39,6 @@ public class PlayerMovement : MonoBehaviour
     private float jumpTime;
     private bool isJumping;
 
-    [Header("Shoot")]
-    public Vector2 shootPoint;
-
 
 
     private void Start()
