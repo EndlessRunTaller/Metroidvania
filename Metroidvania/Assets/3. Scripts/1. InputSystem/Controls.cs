@@ -255,7 +255,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Fechas"",
                     ""id"": ""78aa79a9-9b00-42e3-aee7-fbcaad539fce"",
-                    ""path"": ""2DVector(mode=2)"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

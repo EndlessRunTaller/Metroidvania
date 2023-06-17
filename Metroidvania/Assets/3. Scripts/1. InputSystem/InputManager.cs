@@ -27,8 +27,7 @@ public class InputManager : MonoBehaviour
         controls.Movimiento.Dash.performed += DashPlayer;
         //Shoot
         controls.Movimiento.Shoot.performed += ShootPlayer;
-
-
+        controls.Movimiento.Shoot.canceled += ShootPlayer;
     }
 
 
@@ -63,12 +62,7 @@ public class InputManager : MonoBehaviour
     private void ShootPlayer(InputAction.CallbackContext obj)
     {
         Vector2 shootDir = obj.ReadValue<Vector2>();
-        if (shootDir.x >= -1 & shootDir.x <= 1)
-        {
-            //FindObjectOfType<ShootSystem>().SHOOT();
-        }
-
-        FindObjectOfType<ShootSystem>().ROTATION(shootDir);
+        FindObjectOfType<ShootSystem>().ANIMACION(shootDir);
     }
 
 }
