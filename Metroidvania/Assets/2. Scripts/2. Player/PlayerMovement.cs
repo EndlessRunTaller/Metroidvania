@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Codigos")]
     private Rigidbody rb;
+    public Animator anim;
     
 
     [Header("Velocidades")]
@@ -50,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         ISGROUNDED();
+        anim.SetFloat("XSpeed", rb.velocity.x);
     }
 
     private void FixedUpdate()
@@ -72,12 +74,14 @@ public class PlayerMovement : MonoBehaviour
     public void MOVEDIR(Vector2 direction)
     {
         dir = direction;
+
     }
 
     //Fases del salto
     public void PERFORMJUMP()
     {
         isJumping = true;
+        anim.SetTrigger("Jump");
     }
 
     public void CANCELJUMP()
