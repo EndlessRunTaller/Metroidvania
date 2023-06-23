@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eed02a057cdb8a3439ef707b9481295f
+guid: a79d78d3a85032048a197c1c80dd0463
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,18 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.001
-    second: {fileID: 2100000, guid: ab1a600fc1fa0ce4683a667882dc93b1, type: 2}
+      name: Material.011
+    second: {fileID: 2100000, guid: e3b0d8650364b6442b436621863a1279, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Nada
-    second: {fileID: 2100000, guid: 58bb9d4749b8f784e948321849493c12, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Pasto
-    second: {fileID: 2100000, guid: fd02ba229192d884e89dd00814d049d6, type: 2}
+      name: Material.012
+    second: {fileID: 2100000, guid: 99e8882d52dd0a74b80785e0984b43be, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

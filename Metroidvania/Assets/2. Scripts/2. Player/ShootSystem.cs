@@ -5,64 +5,43 @@ using UnityEngine;
 public class ShootSystem : MonoBehaviour
 {
     public Transform shootingPoint;
+    public float shootLimit = 5;
+    private int shoots;
     public GameObject bulletPrefab;
-    private Animator anim;
+    public Animator anim;
     private Vector2 dir;
+    public float speed;
 
-    private float rotacionDisparo;
-    private float yR = 10;
+ 
+    public bool isShooting;
+    public bool canShoot;
 
-    //BOOLS
-    private bool grado0;
-    private bool grado45;
-    private bool grado90;
+    public bool grado0;
+    public bool grado0Disparo;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        anim = GetComponent<Animator>();
-    }
+
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    public void SHOOT()
-    {
-        Instantiate(bulletPrefab, shootingPoint.position, transform.rotation);
+        anim.SetBool("grado0", isShooting);
     }
 
     public void ANIMACION(Vector2 shootDir)
     {
-        if (shootDir.x == 1)
+        if (shootDir.x == 1 || shootDir.x == -1)
         {
-            grado0 = true;
-            grado45 = false;
-            grado90 = false;
-        } else if (shootDir.x >= 0.5f && shootDir.x <= 0.8)
-        {
-            grado0 = false;
-            grado45 = true;
-            grado90 = false;
-        }
-        else if(shootDir.y == 1)
-        {
-            grado0 = false;
-            grado45 = false;
-            grado90 = true;
+            grado0Disparo = true;
         }
         else
         {
-            grado0 = false;
-            grado45 = false;
-            grado90 = false;
+            grado0Disparo = false;
         }
-        
-        anim.SetBool("grado0", grado0);
-        anim.SetBool("grado45", grado45);
-        anim.SetBool("grado90", grado90);
     }
 
+    public void SHOOT()
+    {
+        var bullet = Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation);
+        bullet.GetComponent<Rigidbody>().velocity = shootingPoint.right * speed;
+    }
 }

@@ -8,6 +8,8 @@ public class InputManager : MonoBehaviour
 {
     Controls controls;
     public PlayerMovement playerMovement;
+    public ShootSystem shootSystem;
+    private Action<InputAction.CallbackContext> isShooting;
 
     private void Awake()
     {
@@ -28,9 +30,24 @@ public class InputManager : MonoBehaviour
         //Shoot
         controls.Movimiento.Shoot.performed += ShootPlayer;
         controls.Movimiento.Shoot.canceled += ShootPlayer;
+        //isShooting
+        controls.Movimiento.isShooting.performed += ISSHOOTING;
+        controls.Movimiento.isShooting.canceled += ISSHOOTING;
     }
 
-
+    private void ISSHOOTING(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            shootSystem.isShooting = true;
+            Debug.LogError("A");
+        }
+        else if (context.canceled)
+        {
+            shootSystem.isShooting = false;
+            Debug.LogError("A");
+        }
+    }
 
     private void DashPlayer(InputAction.CallbackContext obj)
     {

@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Codigos")]
     private Rigidbody rb;
     public Animator anim;
+    public ShootSystem shootSystem;
     
 
     [Header("Velocidades")]
@@ -40,6 +41,9 @@ public class PlayerMovement : MonoBehaviour
     private float jumpTime;
     private bool isJumping;
 
+    [Header("Stamina")]
+    public float stamina;
+
 
 
     private void Start()
@@ -52,6 +56,9 @@ public class PlayerMovement : MonoBehaviour
     {
         ISGROUNDED();
         anim.SetFloat("XSpeed", rb.velocity.x);
+        anim.SetBool("isShootingHorizontal", shootSystem.grado0);
+        anim.SetBool("isShootingHorizontal", shootSystem.isShooting);
+        Stamina();
     }
 
     private void FixedUpdate()
@@ -74,7 +81,6 @@ public class PlayerMovement : MonoBehaviour
     public void MOVEDIR(Vector2 direction)
     {
         dir = direction;
-
     }
 
     //Fases del salto
@@ -190,29 +196,41 @@ public class PlayerMovement : MonoBehaviour
 
     public IEnumerator DASH()
     {
-        puedeMover = false;
-        puedeDash = false;
-        rb.constraints = RigidbodyConstraints.FreezePositionY;
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
-
-        if (derecha)
+        if(stamina >= 100)
         {
-            rb.velocity = new Vector3(velocidadDash, 0, 0);
-        }
-        else
-        {
-            rb.velocity = new Vector3(-velocidadDash, 0, 0);
+            puedeMover = false;
+            puedeDash = false;
+            rb.constraints = RigidbodyConstraints.FreezePositionY;
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+            if (derecha)
+            {
+                rb.velocity = new Vector3(velocidadDash, 0, 0);
+            }
+            else
+            {
+                rb.velocity = new Vector3(-velocidadDash, 0, 0);
+            }
+            yield return new WaitForSeconds(tiempoDash);
+            puedeMover = true;
+            puedeDash = true;
+            rb.constraints = RigidbodyConstraints.None;
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
+            stamina = 0;
         }
 
-        yield return new WaitForSeconds(tiempoDash);
-        puedeMover = true;
-        puedeDash = true;
-        rb.constraints = RigidbodyConstraints.None;
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
     } 
 
     public void GRAVITY(float GravityScale)
     {
         rb.AddForce(Physics.gravity * (GravityScale - 1) * rb.mass);
+    }
+
+    public void Stamina()
+    {
+        if(stamina <= 100)
+        {
+            stamina = stamina + 30 * Time.deltaTime;
+        }
     }
 }
