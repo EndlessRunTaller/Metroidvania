@@ -7,8 +7,7 @@ public class FPSController : MonoBehaviour
 {
     private int LimiteFPS = 60;
     public GameObject error;
-    public bool cerrarJuego;
-    public int scene;
+    public bool cerrarJuego = false;
 
     public ShaderEffect_BleedingColors ShaderEffect_BleedingColors;
     public ShaderEffect_CorruptedVram shaderEffect_CorruptedVram;
@@ -33,28 +32,21 @@ public class FPSController : MonoBehaviour
 
     IEnumerator BajarFPS()
     {
-        Application.targetFrameRate = LimiteFPS;
-        yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS -10;
         shaderEffect_CorruptedVram.enabled = true;
-        QualitySettings.masterTextureLimit = 0;
         yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS - 20;
         yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS - 30;
-        QualitySettings.shadowCascades = 0;
         yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS - 40;
         yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS - 50;
         ShaderEffect_BleedingColors.enabled = true;
-        QualitySettings.shadowDistance = 0;
         yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS - 59;
-        QualitySettings.antiAliasing = 0;
         yield return new WaitForSeconds(2);
         cerrarJuego = true;
-        Time.timeScale = 0;
         yield return null;
     }
 
@@ -70,21 +62,7 @@ public class FPSController : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("⢐⢐⢐⡐⡐⡐⡐⣐⣐⣐⠔⢖⢢⢑⢒⡢⡫⡐⠶⢐⣐⣐⡐⡐⡐⡐⣐⢐⢐⠨  " +
-                "⠐⠀⡕⡐⠌⡨⠐⠀⡂⡐⢜⠔⣁⢨⢉⡉⠻⣮⣢⡁⡢⠐⠀⠅⠅⡂⡂⢇⢂⢂  " +
-                "⢈⠂⠇⡂⠅⡂⢅⢑⠐⡜⡰⢸⣿⣿⣿⣿⣗⢿⣿⡄⡂⠅⠅⢅⢑⢐⢐⢰⠐⠀  " +
-                "⠠⢑⢐⢐⠡⠨⡐⡐⢰⡹⡬⢸⣿⣿⣿⣻⠿⠸⣿⣿⣦⣅⠅⠅⡂⡂⡂⢺⠨⢈  " +
-                "⠨⠐⡄⡂⡊⠔⡐⢨⡪⣞⢊⠐⡡⡙⣿⠠⠀⠀⠢⡛⣿⣿⣷⣥⡂⡂⡊⡸⡈⠀  " +
-                "⢈⠂⡇⠢⡈⡂⠢⣿⡮⠒⠀⢦⣤⣴⣻⢼⣶⣿⠅⢀⢃⠻⣿⣟⣿⡶⣔⡌⠀⠅  " +
-                "⡠⠑⡸⢐⢰⣢⢇⡻⠕⢐⠀⡹⡟⣭⣜⠥⢾⢻⡑⡀⡂⡂⡙⢿⣽⣿⣿⠃⠅⢅  " +
-                "⠢⡁⡂⢧⣷⣿⠽⡨⢈⢐⠨⠘⡎⠐⠒⠊⠀⡺⠐⡀⡂⡂⡂⠅⡻⣽⡝⠀⡑⠜  " +
-                "⠐⠔⡐⠸⣟⡵⡑⡐⡐⠀⢅⡑⠸⡴⠤⡄⠊⡇⠈⡔⣴⡖⣶⢳⣿⣺⠃⢌⢐⠁  " +
-                "⠀⢑⠬⠬⠼⠥⠧⠴⠶⠯⠷⠥⠕⠵⠤⠤⠶⠥⠦⠭⠭⠤⠾⠽⠿⠦⠮⠴⢉⠀  " +
-                "⡇⠀⢠⡞⠛⢷⡀⡞⠋⠷⢠⡞⠛⢳⡄⠀⠀⣿⠀⠠⡾⠋⢻⡄⣾⠋⠹⢀⣾⠋  " +
-                "⣇⢀⠸⣇⠀⣾⠑⣇⡀⣤⠸⣇⢀⣸⠇⠁⠀⣿⣀⠘⣯⡀⣸⠏⣿⡀⣠⠜⣿⡀  " +
-                "⣋⣛⣀⣙⣋⣋⣀⣙⣙⣉⣀⣙⣋⣋⣀⣀⣁⣉⣉⣁⣈⣋⣋⣀⣈⣋⣋⣀⣈⣛  " +
-                "⠀⠀⠀⠀⠀⠀⠈⢢⡠⠠⠑⢮⡾⢸⣿⡇⣿⣿⠟⡁⡢⠠⠔⠀⠀⠀⠀⠀ " +
-                "⠀⠀⠀⠀⠀⠀⠀⠀⠘⢎⠨⢐⠈⢝⢿⠿⢛⠠⢂⠂⠒⠁⠀⠀⠀⠀⠀⠀⠀⠀ ");
+            Debug.Log("");
         }
     }
 }
