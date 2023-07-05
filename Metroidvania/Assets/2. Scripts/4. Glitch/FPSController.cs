@@ -32,19 +32,22 @@ public class FPSController : MonoBehaviour
 
     IEnumerator BajarFPS()
     {
-        Application.targetFrameRate = LimiteFPS -10;
-        shaderEffect_CorruptedVram.enabled = true;
+        Debug.Log("1");
+        yield return new WaitForSeconds(2);
+        Application.targetFrameRate = LimiteFPS - 10;
+        Debug.Log("2");
         yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS - 20;
+        Debug.Log("3");
         yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS - 30;
+        Debug.Log("4");
         yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS - 40;
+        Debug.Log("5");
         yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS - 50;
-        ShaderEffect_BleedingColors.enabled = true;
-        yield return new WaitForSeconds(2);
-        Application.targetFrameRate = LimiteFPS - 59;
+        Debug.Log("6");
         yield return new WaitForSeconds(2);
         cerrarJuego = true;
         yield return null;
