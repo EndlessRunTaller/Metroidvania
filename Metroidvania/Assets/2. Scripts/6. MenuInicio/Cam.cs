@@ -8,6 +8,7 @@ public class Cam : MonoBehaviour
     [SerializeField] private GameObject camaraGameplay;
     [SerializeField] private Transform[] views;
     [SerializeField] private float transitionSpeed;
+    [SerializeField] private GameObject UI;
     Transform currentView;
     void Start()
     {
@@ -28,10 +29,11 @@ public class Cam : MonoBehaviour
     IEnumerator Transiciones()
     {
         currentView = views[1];
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
         currentView = views[2];
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
         camaraMenu.SetActive(false);
+        UI.SetActive(true);
         yield return null;
     }
 }
