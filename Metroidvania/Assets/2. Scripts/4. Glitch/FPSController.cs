@@ -37,11 +37,14 @@ public class FPSController : MonoBehaviour
     {
         controladorDatos.GuardarDatos();
         yield return new WaitForSeconds(2);
+        ShaderEffect_BleedingColors.intensity = 1.84f;
+        ShaderEffect_BleedingColors.shift = -3.64f;
         Application.targetFrameRate = LimiteFPS - 10;
         Debug.Log("2");
         yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS - 20;
         Debug.Log("3");
+        shaderEffect_CorruptedVram.shift = 1.02f;
         yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS - 30;
         Debug.Log("4");
