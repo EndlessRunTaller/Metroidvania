@@ -16,7 +16,7 @@ public class Scene : MonoBehaviour
         }
         else
         {
-            Debug.Log("No");
+        
         }
 
     }

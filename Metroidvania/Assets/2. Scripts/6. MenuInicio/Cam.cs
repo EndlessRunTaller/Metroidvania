@@ -10,6 +10,7 @@ public class Cam : MonoBehaviour
     [SerializeField] private float transitionSpeed;
     [SerializeField] private GameObject UI;
     Transform currentView;
+    public InputManager inputManager;
 
     public Scene scene;
     void Start()
@@ -37,6 +38,7 @@ public class Cam : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         camaraMenu.SetActive(false);
         UI.SetActive(true);
+        inputManager.CambiaTecla();
         yield return null;
     }
 }
