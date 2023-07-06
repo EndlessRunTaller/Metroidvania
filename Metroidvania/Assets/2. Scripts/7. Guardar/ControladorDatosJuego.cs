@@ -28,7 +28,7 @@ public class ControladorDatosJuego : MonoBehaviour
         }
         else
         {
-            Debug.Log("No existe");
+
         }
     }
 

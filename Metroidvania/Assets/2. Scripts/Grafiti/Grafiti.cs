@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Grafiti : MonoBehaviour
 {
@@ -10,6 +12,18 @@ public class Grafiti : MonoBehaviour
 
     private float contador = 0;
     public bool hacerGrafiti = false;
+
+    public Muros muros;
+    public Image barra;
+
+    private int CantidadGrafitis = 0;
+    public TextMeshProUGUI CantidadGrafitisText;
+
+
+    private void Start()
+    {
+        barra.fillAmount = 0;
+    }
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -28,23 +42,42 @@ public class Grafiti : MonoBehaviour
 
     private void Update()
     {
-        if (hacerGrafiti && contador < 200)
+        if (!muros.Completado)
         {
-            contador += 1;
-            Debug.Log(contador);
-            animator.SetBool("Grafiti",hacerGrafiti);
+            if (hacerGrafiti)
+            {
+                contador += 1;
+                animator.SetBool("Grafiti", hacerGrafiti);
+            }
+            else
+            {
+                contador = 0;
+                animator.SetBool("Grafiti", hacerGrafiti);
+            }
+            if(muros.TiempoNecesario == contador)
+            {
+                muros.Completado = true;
+            }
         }
         else
         {
+            animator.SetBool("Grafiti", false);
             contador = 0;
-            animator.SetBool("Grafiti", hacerGrafiti);
-            Debug.Log(contador);
+            StartCoroutine(SumarGrafiti());
+
         }
     }
 
     public bool HacerGrafiti()
     {
         return InGraffiti;
+    }
+
+    IEnumerator SumarGrafiti()
+    {
+        CantidadGrafitis = CantidadGrafitis + 1;
+        Debug.Log(CantidadGrafitis);
+        yield return null;
     }
 
 
