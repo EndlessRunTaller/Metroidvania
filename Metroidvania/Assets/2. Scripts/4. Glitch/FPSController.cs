@@ -8,9 +8,12 @@ public class FPSController : MonoBehaviour
     private int LimiteFPS = 60;
     public GameObject error;
     public bool cerrarJuego = false;
+    public bool Guardar = false;
 
     public ShaderEffect_BleedingColors ShaderEffect_BleedingColors;
     public ShaderEffect_CorruptedVram shaderEffect_CorruptedVram;
+
+    public ControladorDatosJuego controladorDatos;
 
 
     private void Awake()
@@ -32,7 +35,7 @@ public class FPSController : MonoBehaviour
 
     IEnumerator BajarFPS()
     {
-        Debug.Log("1");
+        controladorDatos.GuardarDatos();
         yield return new WaitForSeconds(2);
         Application.targetFrameRate = LimiteFPS - 10;
         Debug.Log("2");

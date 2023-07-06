@@ -10,6 +10,8 @@ public class Cam : MonoBehaviour
     [SerializeField] private float transitionSpeed;
     [SerializeField] private GameObject UI;
     Transform currentView;
+
+    public Scene scene;
     void Start()
     {
         currentView = views[0].transform;
@@ -18,6 +20,7 @@ public class Cam : MonoBehaviour
 
     public void CambiarAJugar()
     {
+        scene.numeroScene = 1;
         StartCoroutine(Transiciones());
     }
 

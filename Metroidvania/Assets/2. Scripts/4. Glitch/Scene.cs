@@ -5,6 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class Scene : MonoBehaviour
 {
-    [HideInInspector] private int numeroScene = 0;
+    public int numeroScene;
 
+
+    private void Start()
+    {
+        if(numeroScene == 1)
+        {
+            SceneManager.LoadScene(numeroScene);
+        }
+        else
+        {
+            Debug.Log("No");
+        }
+
+    }
 }
