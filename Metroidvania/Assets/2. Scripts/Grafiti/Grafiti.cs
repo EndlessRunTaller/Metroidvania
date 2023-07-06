@@ -13,7 +13,7 @@ public class Grafiti : MonoBehaviour
     private float contador = 0;
     public bool hacerGrafiti = false;
 
-    public Muros muros;
+    public Muros[] muros;
     public Image barra;
 
     private int CantidadGrafitis = 0;
@@ -42,43 +42,37 @@ public class Grafiti : MonoBehaviour
 
     private void Update()
     {
-        if (!muros.Completado)
+        if (!muros[0].Completado)
         {
             if (hacerGrafiti)
             {
                 contador += 1;
                 animator.SetBool("Grafiti", hacerGrafiti);
+
             }
             else
             {
                 contador = 0;
                 animator.SetBool("Grafiti", hacerGrafiti);
             }
-            if(muros.TiempoNecesario == contador)
+            if(muros[0].TiempoNecesario == contador)
             {
-                muros.Completado = true;
+                muros[0].Completado = true;
             }
         }
         else
         {
             animator.SetBool("Grafiti", false);
             contador = 0;
-            StartCoroutine(SumarGrafiti());
-
+            CantidadGrafitis = muros[0].valor;
+            CantidadGrafitisText.text = CantidadGrafitis + "/7";
         }
+
+        barra.fillAmount = contador / muros[0].TiempoNecesario;
     }
 
     public bool HacerGrafiti()
     {
         return InGraffiti;
     }
-
-    IEnumerator SumarGrafiti()
-    {
-        CantidadGrafitis = CantidadGrafitis + 1;
-        Debug.Log(CantidadGrafitis);
-        yield return null;
-    }
-
-
 }

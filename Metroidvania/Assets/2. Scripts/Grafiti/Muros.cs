@@ -9,5 +9,6 @@ public class Muros : ScriptableObject
 {
     public bool Completado;
     public float TiempoNecesario;
+    public int valor;
 }
     
