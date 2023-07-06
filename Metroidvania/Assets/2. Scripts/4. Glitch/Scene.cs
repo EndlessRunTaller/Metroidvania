@@ -5,13 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class Scene : MonoBehaviour
 {
-    public int numeroScene;
+    [HideInInspector] private int numeroScene = 0;
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SceneManager.LoadScene(numeroScene);
-        }
-    }
 }
