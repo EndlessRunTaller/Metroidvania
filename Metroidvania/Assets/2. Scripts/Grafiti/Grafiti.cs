@@ -7,14 +7,15 @@ using TMPro;
 public class Grafiti : MonoBehaviour
 {
     public InputManager inputManager;
-    public bool InGraffiti;
     public Animator animator;
 
     private float contador = 0;
-    public bool hacerGrafiti = false;
 
     public Muros[] muros;
-    public Image barra;
+    public Image[] barra;
+    public GameObject[] GrafitiImagen;
+    public GameObject[] circulo;
+    public GameObject Sprite;
 
     private int CantidadGrafitis = 0;
     public TextMeshProUGUI CantidadGrafitisText;
@@ -22,38 +23,25 @@ public class Grafiti : MonoBehaviour
 
     private void Start()
     {
-        barra.fillAmount = 0;
-    }
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            InGraffiti = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            InGraffiti = false;
-        }
+        barra[0].fillAmount = 0;
     }
 
     private void Update()
     {
         if (!muros[0].Completado)
         {
-            if (hacerGrafiti)
+            if (muros[0].hacerGrafiti)
             {
                 contador += 1;
-                animator.SetBool("Grafiti", hacerGrafiti);
+                animator.SetBool("Grafiti", muros[0].hacerGrafiti);
+                Sprite.SetActive(true);
 
             }
             else
             {
                 contador = 0;
-                animator.SetBool("Grafiti", hacerGrafiti);
+                animator.SetBool("Grafiti", muros[0].hacerGrafiti);
+                Sprite.SetActive(false);
             }
             if(muros[0].TiempoNecesario == contador)
             {
@@ -64,15 +52,17 @@ public class Grafiti : MonoBehaviour
         {
             animator.SetBool("Grafiti", false);
             contador = 0;
+            GrafitiImagen[0].SetActive(true);
+            circulo[0].SetActive(false);
+            Sprite.SetActive(false);
             CantidadGrafitis = muros[0].valor;
             CantidadGrafitisText.text = CantidadGrafitis + "/7";
         }
-
-        barra.fillAmount = contador / muros[0].TiempoNecesario;
+        barra[0].fillAmount = contador / muros[0].TiempoNecesario;
     }
 
     public bool HacerGrafiti()
     {
-        return InGraffiti;
+        return muros[0].InGraffiti;
     }
 }

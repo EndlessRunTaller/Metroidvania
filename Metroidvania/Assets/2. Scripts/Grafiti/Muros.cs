@@ -10,5 +10,7 @@ public class Muros : ScriptableObject
     public bool Completado;
     public float TiempoNecesario;
     public int valor;
+    public bool InGraffiti;
+    public bool hacerGrafiti = false;
 }
     

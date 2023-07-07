@@ -10,8 +10,8 @@ public class InputManager : MonoBehaviour
     public PlayerMovement playerMovement;
     public ShootSystem shootSystem;
     public Grafiti grafiti;
-    public bool PuedeGrafiti = false;
     private Action<InputAction.CallbackContext> isShooting;
+    public Muros[] muros;
 
     private void Awake()
     {
@@ -98,13 +98,13 @@ public class InputManager : MonoBehaviour
 
     private void GRAFITI(InputAction.CallbackContext context)
     {
-        if (context.performed && grafiti.HacerGrafiti())
+        if (context.performed && muros[0].InGraffiti)
         {
-            grafiti.hacerGrafiti = true;
+            muros[0].hacerGrafiti = true;
         }
         else if (context.canceled)
         {
-            grafiti.hacerGrafiti = false;
+            muros[0].hacerGrafiti = false;
         }
     }
 
