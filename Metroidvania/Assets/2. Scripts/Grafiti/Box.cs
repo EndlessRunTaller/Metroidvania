@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
-    public Muros[] muros;
+    public Muros muros;
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            muros[0].InGraffiti = true;
+            muros.InGraffiti = true;
         }
     }
 
@@ -18,7 +18,7 @@ public class Box : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            muros[0].InGraffiti = false;
+            muros.InGraffiti = false;
         }
     }
 

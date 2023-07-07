@@ -9,9 +9,8 @@ public class InputManager : MonoBehaviour
     Controls controls;
     public PlayerMovement playerMovement;
     public ShootSystem shootSystem;
-    public Grafiti grafiti;
     private Action<InputAction.CallbackContext> isShooting;
-    public Muros[] muros;
+    public Muros muro1, muro2,muro3,muro4;
 
     private void Awake()
     {
@@ -40,6 +39,15 @@ public class InputManager : MonoBehaviour
 
         controls.MovimientoNormal.Grafiti.performed += GRAFITI;
         controls.MovimientoNormal.Grafiti.canceled += GRAFITI;
+
+        controls.MovimientoNormal.Grafiti.performed += GRAFITI1;
+        controls.MovimientoNormal.Grafiti.canceled += GRAFITI1;
+
+        controls.MovimientoNormal.Grafiti.performed += GRAFITI2;
+        controls.MovimientoNormal.Grafiti.canceled += GRAFITI2;
+
+        controls.MovimientoNormal.Grafiti.performed += GRAFITI3;
+        controls.MovimientoNormal.Grafiti.canceled += GRAFITI3;
     }
 
 
@@ -92,25 +100,76 @@ public class InputManager : MonoBehaviour
     {
         if (context.performed)
         {
-            grafiti.HacerGrafiti();
+            
         }
     }
 
     private void GRAFITI(InputAction.CallbackContext context)
     {
-        if (context.performed && muros[0].InGraffiti)
+        if (context.performed)
         {
-            muros[0].hacerGrafiti = true;
+            if (muro1.InGraffiti)
+            {
+                muro1.hacerGrafiti = true;
+            }
         }
         else if (context.canceled)
         {
-            muros[0].hacerGrafiti = false;
+            muro1.hacerGrafiti = false;
         }
     }
+
+    private void GRAFITI1(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (muro2.InGraffiti)
+            {
+                muro2.hacerGrafiti = true;
+            }
+        }
+        else if (context.canceled)
+        {
+            muro2.hacerGrafiti = false;
+        }
+    }
+
+    private void GRAFITI2(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (muro3.InGraffiti)
+            {
+                muro3.hacerGrafiti = true;
+            }
+        }
+        else if (context.canceled)
+        {
+            muro3.hacerGrafiti = false;
+        }
+    }
+
+    private void GRAFITI3(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (muro4.InGraffiti)
+            {
+                muro4.hacerGrafiti = true;
+            }
+        }
+        else if (context.canceled)
+        {
+            muro4.hacerGrafiti = false;
+        }
+    }
+
 
     public void CambiaTecla()
     {
         controls.MovimientoNormal.Enable();
         controls.UI.Disable();
     }
+
+
 }

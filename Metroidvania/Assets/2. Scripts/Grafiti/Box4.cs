@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Box2 : MonoBehaviour
+public class Box4 : MonoBehaviour
 {
     public Muros muros;
 
@@ -21,5 +21,4 @@ public class Box2 : MonoBehaviour
             muros.InGraffiti = false;
         }
     }
-
 }
