@@ -21889,7 +21889,7 @@ MonoBehaviour:
 
     C - Dash
 
-    X - Disparar'
+    X - Grafiti'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db8f0a47335509d4bb93f838883ea80a, type: 2}
   m_sharedMaterial: {fileID: -1572336414027191459, guid: db8f0a47335509d4bb93f838883ea80a,
@@ -48605,6 +48605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numeroScene: 0
+  inputManager: {fileID: 109558392}
 --- !u!4 &1971280115
 Transform:
   m_ObjectHideFlags: 0

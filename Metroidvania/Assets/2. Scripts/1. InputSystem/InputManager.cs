@@ -25,11 +25,18 @@ public class InputManager : MonoBehaviour
         //Movimiento
         controls.MovimientoNormal.Move.performed += MovePlayer;
         controls.MovimientoNormal.Move.canceled += MovePlayer;
+
+        controls.MovimientoGlitch.Move.performed += MovePlayer;
+        controls.MovimientoGlitch.Move.canceled += MovePlayer;
         //Salto
         controls.MovimientoNormal.Jump.performed += JumpPlayer;
         controls.MovimientoNormal.Jump.canceled += JumpPlayer;
+
+        controls.MovimientoGlitch.Jump.performed += JumpPlayer;
+        controls.MovimientoGlitch.Jump.canceled += JumpPlayer;
         //Dash
         controls.MovimientoNormal.Dash.performed += DashPlayer;
+        controls.MovimientoGlitch.Dash.performed += DashPlayer;
         //Shoot
         controls.MovimientoGlitch.Shoot.performed += ShootPlayer;
         controls.MovimientoGlitch.Shoot.canceled += ShootPlayer;
@@ -169,6 +176,14 @@ public class InputManager : MonoBehaviour
     {
         controls.MovimientoNormal.Enable();
         controls.UI.Disable();
+    }
+
+    public void GlithTecla()
+    {
+        controls.MovimientoGlitch.Enable();
+        controls.MovimientoNormal.Disable();
+        controls.UI.Disable();
+
     }
 
 
